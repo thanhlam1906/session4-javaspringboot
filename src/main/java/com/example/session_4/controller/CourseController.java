@@ -66,9 +66,7 @@ public class CourseController {
         return ResponseEntity.noContent().build();
     }
 
-    // ===== Enrollment sub-resource endpoints =====
-
-    // POST /courses/{courseId}/enrollments — Thêm sinh viên vào khóa học
+    //— Thêm sinh viên vào khóa học
     @PostMapping("/{courseId}/enrollments")
     public ResponseEntity<ApiData<CourseEnrollmentResponse>> enrollStudent(
             @PathVariable Long courseId,
@@ -79,8 +77,7 @@ public class CourseController {
                 HttpStatus.CREATED
         );
     }
-
-    // DELETE /courses/{courseId}/enrollments/students/{studentId} — Xóa sinh viên khỏi khóa học
+// — Xóa sinh viên khỏi khóa học
     @DeleteMapping("/{courseId}/enrollments/students/{studentId}")
     public ResponseEntity<ApiData<Void>> removeStudentFromCourse(
             @PathVariable Long courseId,
@@ -91,8 +88,7 @@ public class CourseController {
                 HttpStatus.NO_CONTENT
         );
     }
-
-    // GET /courses/{courseId}/enrollments/students?search=ten_sv — Tìm kiếm sinh viên trong khóa học
+    // — Tìm kiếm sinh viên trong khóa học
     @GetMapping("/{courseId}/enrollments/students")
     public ResponseEntity<ApiData<List<CourseEnrollmentResponse>>> searchStudentsInCourse(
             @PathVariable Long courseId,

@@ -88,12 +88,10 @@ public class EnrollmentImpl implements EnrollmentService {
 
     @Override
     public List<CourseEnrollmentResponse> searchStudentsInCourse(Long courseId, String search) {
-        // 1. Kiểm tra khóa học tồn tại
         if (!courseRepository.existsById(courseId)) {
             throw new NoSuchElementException("Course not found with id: " + courseId);
         }
 
-        // 2. Nếu không có search param, trả về tất cả enrollments của course
         List<StudentEnrollment> enrollments;
         if (search == null || search.isBlank()) {
             enrollments = enrollmentRepository.findByCourseId(courseId);
