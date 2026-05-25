@@ -2,11 +2,16 @@ package com.example.session_4.service.impl;
 
 import com.example.session_4.mapper.StudentMapper;
 import com.example.session_4.model.dto.request.StudentRequest;
+import com.example.session_4.model.dto.response.PageResponse;
 import com.example.session_4.model.dto.response.StudentResponse;
 import com.example.session_4.model.entity.Student;
 import com.example.session_4.repository.IStudentRepository;
 import com.example.session_4.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +31,31 @@ public class StudentImpl implements StudentService {
     @Override
     public List<StudentResponse> getAllStudents() {
         return studentMapper.toDtoList(studentRepository.findAll());
+    }
+
+    @Override
+    public PageResponse<StudentResponse> getPagedStudents(int page, int size, String sortBy, Sort.Direction direction, String keyword) {
+        if (page < 0) {
+            page = 0;
+        }
+
+        Sort sort = Sort.unsorted();
+        if (sortBy != null && !sortBy.trim().isEmpty() && direction != null) {
+            sort = Sort.by(direction, sortBy);
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<StudentResponse> responsePage = studentRepository.searchStudents(keyword, pageable);
+
+        return new PageResponse<>(
+                responsePage.getContent(),
+                responsePage.getNumber(),
+                responsePage.getSize(),
+                responsePage.getTotalElements(),
+                responsePage.getTotalPages(),
+                responsePage.isLast()
+        );
     }
 
     @Override

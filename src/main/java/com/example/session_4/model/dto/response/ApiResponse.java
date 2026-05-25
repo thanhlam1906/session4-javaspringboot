@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatusCode;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiData<T> {
+public class ApiResponse<T> {
     private boolean success;
     private String message;
     private T data;
